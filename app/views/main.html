@@ -1,0 +1,75 @@
+<div map-lazy-load="https://maps.google.com/maps/api/js" map-lazy-load-params="{{googleMapsUrl}}">
+    <ng-map center="12.8797,121.7740" zoom="7" class="angular-google-map-container">        
+          <marker ng-if="dataset == 'all'" ng-repeat="point in points" position="{{point.position}}"
+                  icon="{
+                    path:'CIRCLE',
+                    fillColor: '#6a1b9a',
+                    fillOpacity: 0.{{point.rating}},
+                    scale: 10,
+                    strokeColor: '#6a1b9a',
+                    strokeOpacity: 0.{{point.rating}}, 
+                    strokeWeight: 0}"
+                  on-click="showDetails(point)"></marker>
+          <marker ng-if="dataset == 'cough'" ng-repeat="point in cough" position="{{point.position}}"
+                  icon="{
+                    path:'CIRCLE',
+                    fillColor: '#558b2f',
+                    fillOpacity: 0.{{point.rating}},
+                    scale: 10,
+                    strokeColor: '#558b2f',
+                    strokeWeight: 0}
+                    "on-click="showDetails(point)"
+                    ></marker>
+          <marker ng-if="dataset == 'breath'" ng-repeat="point in breath" position="{{point.position}}"
+                  icon="{
+                    path:'CIRCLE',
+                    fillColor: '#0277bd',
+                    fillOpacity: 0.{{point.rating}},
+                    scale: 10,
+                    strokeColor: '#0277bd',
+                    strokeWeight: 0}
+                    "on-click="showDetails(point)"></marker>
+          <marker ng-if="dataset == 'sneeze'" ng-repeat="point in sneeze" position="{{point.position}}"
+                  icon="{
+                    path:'CIRCLE',
+                    fillColor: '#f9a825',
+                    fillOpacity: 0.{{point.rating}},
+                    scale: 10,
+                    strokeColor: '#f9a825',
+                    strokeWeight: 0}
+                    "on-click="showDetails(point)"
+                    ></marker>
+          <marker ng-if="dataset == 'itchy'" ng-repeat="point in itchy" position="{{point.position}}"
+                  icon="{
+                    path:'CIRCLE',
+                    fillColor: '#c62828',
+                    fillOpacity: 0.{{point.rating}},
+                    scale: 10,
+                    strokeColor: '#c62828',
+                    strokeWeight: 0}
+                    "on-click="showDetails(point)"
+                    ></marker>
+         <marker
+                icon="{{images}}"
+                position="{{disasters.position}}"
+
+                on-click="map.showInfoWindow('foo-iw')"></marker>
+
+        <info-window id="foo-iw">
+        <div ng-non-bindable="">
+          <strong>Disaster: </strong>{{disaster.title | split:',':0}}<br/>
+          <strong>Location: </strong>{{disaster.title | split:',':1}}<br/>
+          <strong>Category: </strong>{{disaster.categories[0].title}}<br/>
+          <a target="_blank" href={{disaster.sources[0].url}}>Source</a>
+        </div>
+      </info-window>
+      <info-window id="points-iw">
+        <div ng-non-bindable="">
+        Lat: {{anchor.getPosition().lat()}}<br/>
+        Lng: {{anchor.getPosition().lng()}}<br/>
+        Rating: {{rating}}
+        </div>
+      </info-window>
+
+    </ng-map>
+</div>
