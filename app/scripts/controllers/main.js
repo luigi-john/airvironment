@@ -14,8 +14,11 @@ angular.module('spaceappApp')
         });
         $http.get('http://eonet.sci.gsfc.nasa.gov/api/v2.1/events/EONET_358').then(function(response) {
             $scope.disaster = response.data;
-            console.log($scope.disaster);
         });
+
+        $http.get('http://6848a814.ngrok.io/records/?country=philippines').then(function(response){
+        	$scope.something = response.data.data;
+        })
 
         $scope.googleMapsUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyB5--PbJzFMC0_R-7ByRIwpDPcG7FofYRA';
         $scope.points = [
@@ -48,10 +51,23 @@ angular.module('spaceappApp')
             url: 'http://maps.google.com/mapfiles/ms/micons/volcano.png'
         };
 
-        $scope.showDetails = function(e, point) {
-        	console.log(point);
+        $scope.showDetails = function(e,point,type) {
+        	// $http.get('http://6848a814.ngrok.io/records/coordinates?lat='+point.latitude+'&lng='+point.longitude+'&distance=1').then(function(response){
+        	// 	$scope.distances = response.data.data;
+        	// 	console.log($scope.distances.distance);
+        	// });
         	$scope.point = point;
-        	$scope.rating = point.rating;
+        	$scope.location = point.raw_location;
+        	if(type=='air'){
+        		$scope.rating = point.air_pollution;
+        	}else if(type=='cough'){
+        		$scope.rating = point.caugh;
+        	}else if(type=='breath'){
+        		$scope.rating = point.shortness_of_breath;
+        	}else if(type=='sneeze'){
+        		$scope.rating = point.sneezing;
+        	}
+        	
         	$scope.map.showInfoWindow('points-iw',this);
         };
 
